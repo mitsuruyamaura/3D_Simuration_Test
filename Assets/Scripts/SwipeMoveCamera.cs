@@ -99,8 +99,11 @@ public class SwipeMoveCamera : MonoBehaviour
     /// </summary>
     /// <param name="delta"></param>
     private void MouseWheel(float delta) {
-        // カメラの前後移動
+        // カメラの前後移動(3D)
         transform.position += transform.forward * delta * wheelSpeed;
+
+        // 2Dの場合は Size を動かすことで拡大・縮小させる
+        Camera.main.orthographicSize += delta * wheelSpeed;
         return;
     }
 
