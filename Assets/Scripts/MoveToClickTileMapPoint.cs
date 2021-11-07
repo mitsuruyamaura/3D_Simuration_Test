@@ -40,7 +40,7 @@ public class MoveToClickTileMapPoint : MonoBehaviour {
             // タップの位置を取得してワールド座標に変換し、それをさらにタイルのセル座標に変換
             Vector3Int gridPos = grid.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
-            Debug.Log(gridPos);
+            //Debug.Log(gridPos);
 
             // タップしたタイルが移動不可のタイルでなければ
             if (tilemap.GetColliderType(gridPos) != Tile.ColliderType.None) {
@@ -67,11 +67,11 @@ public class MoveToClickTileMapPoint : MonoBehaviour {
         // 目的地点の設定。調整することで、タイルの中央に移動させる
         Vector2 nextPos = new Vector2(gridPos.x + 0.5f, gridPos.y + 0.5f);
 
-        Debug.Log(nextPos);
+        //Debug.Log(nextPos);
 
         // 目的地の更新
         agent.destination = nextPos;
 
-        Debug.Log("移動");
+        //Debug.Log("移動");
     }
 }
