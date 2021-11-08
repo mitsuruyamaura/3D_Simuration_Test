@@ -11,7 +11,10 @@ using UnityEngine.EventSystems;
 //【Unity】ボタンを押したときに画面クリックは無視する
 //https://nn-hokuson.hatenablog.com/entry/2017/07/12/220302
 
-public class MoveToClickTileMapPoint : MonoBehaviour {
+/// <summary>
+/// タイルマップをタップしてナビメッシュで移動させるためのクラス
+/// </summary>
+public class MoveToClickTilemapPoint : MonoBehaviour {
 
     [SerializeField]
     private Grid grid;
@@ -20,6 +23,9 @@ public class MoveToClickTileMapPoint : MonoBehaviour {
     private Tilemap tilemap;
 
     private NavMeshAgent agent;
+
+    public bool isActive;
+
 
     void Start() {
 
@@ -49,6 +55,10 @@ public class MoveToClickTileMapPoint : MonoBehaviour {
             return;
         }
 #endif
+
+        if (!isActive) {
+            return;
+        }
 
         // NavMeshAgent が利用できる状態でタイルマップをタップ(マウスクリック)したら
         if (agent && Input.GetMouseButtonDown(0)) {
@@ -89,5 +99,17 @@ public class MoveToClickTileMapPoint : MonoBehaviour {
         agent.destination = nextPos;
 
         //Debug.Log("移動");
+    }
+
+    /// <summary>
+    /// 初期設定
+    /// </summary>
+    /// <param name="grid"></param>
+    /// <param name="tilemap"></param>
+    public void SetUpTilemapMove(Grid grid, Tilemap tilemap) {
+        this.grid = grid;
+        this.tilemap = tilemap;
+
+        isActive = false;
     }
 }
