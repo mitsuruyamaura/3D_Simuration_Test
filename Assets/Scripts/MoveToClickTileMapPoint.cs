@@ -21,6 +21,9 @@ public class MoveToClickTileMapPoint : MonoBehaviour {
 
     private NavMeshAgent agent;
 
+    public bool isActive;
+
+
     void Start() {
 
         if (TryGetComponent(out agent)) {
@@ -49,6 +52,10 @@ public class MoveToClickTileMapPoint : MonoBehaviour {
             return;
         }
 #endif
+
+        if (!isActive) {
+            return;
+        }
 
         // NavMeshAgent が利用できる状態でタイルマップをタップ(マウスクリック)したら
         if (agent && Input.GetMouseButtonDown(0)) {
@@ -89,5 +96,17 @@ public class MoveToClickTileMapPoint : MonoBehaviour {
         agent.destination = nextPos;
 
         //Debug.Log("移動");
+    }
+
+    /// <summary>
+    /// 初期設定
+    /// </summary>
+    /// <param name="grid"></param>
+    /// <param name="tilemap"></param>
+    public void SetUpMapPoint(Grid grid, Tilemap tilemap) {
+        this.grid = grid;
+        this.tilemap = tilemap;
+
+        isActive = false;
     }
 }
