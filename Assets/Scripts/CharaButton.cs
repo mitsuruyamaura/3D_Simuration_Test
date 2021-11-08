@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using Cinemachine;
 
+/// <summary>
+/// キャラボタンの制御用
+/// </summary>
 public class CharaButton : MonoBehaviour
 {
     [SerializeField]
-    private Button btnChara;
+    private Button btnChara;　　// ボタンの Interactable については、プレファブの初期設定で切ってある
 
     [SerializeField]
     private Image imgCharaIcon;
@@ -24,18 +26,18 @@ public class CharaButton : MonoBehaviour
     /// キャラボタンの初期設定
     /// </summary>
     /// <param name="cameraManager"></param>
-    public void SetUpCharaDetail(CameraManager cameraManager, CharaController charaController) {
-
-        SwitchActiveteCharaButton(false);
+    /// <param name="charaController"></param>
+    public void SetUpCharaButton(CameraManager cameraManager, CharaController charaController) {
 
         // TODO 画像、コストなどの設定
 
+        // ボタンのアサインがある場合のみ、ボタンにメソッドを登録
         btnChara?.onClick.AddListener(OnClickCharaButton);
 
         this.cameraManager = cameraManager;
         this.charaController = charaController;
 
-        // コストが支払える場合にはボタンを押せるようにする
+        // TODO コストが支払える場合にはボタンを押せるようにする(後で、コストの値はキャラのデータから参照するように変える)
         SwitchActiveteCharaButton(CheckCost(0));
     }
 
@@ -44,22 +46,22 @@ public class CharaButton : MonoBehaviour
     /// </summary>
     private void OnClickCharaButton() {
 
-        // このキャラのカメラをメインに切り替える
+        // このキャラのカメラをメインに切り替えて、このキャラにフォーカスする
         cameraManager.SetCurrentCharaCamera(charaController.MyCamera);
 
-        // このキャラをアクティブ状態にする
-        charaController.gameManager.SwitchActivateChara(charaController);
+        // このキャラをアクティブ状態にしてタイルマップの移動を許可する。他のキャラは非アクティブ状態にする
+        charaController.GameManager.SwitchActivateChara(charaController);
 
         Debug.Log("キャラ選択");
     }
 
     /// <summary>
-    /// コスト支払い有無の確認とボタンの活性化切り替え
+    /// コスト支払い有無の確認
     /// </summary>
     /// <param name="cost"></param>
     public bool CheckCost(int cost) {
 
-        // TODO コストの値が支払えるなら(後で修正する)
+        // TODO コストの値が支払えるなら(後で 100 の部分をコスト支払い用変数に修正する)
         return cost <= 100 ? true : false;
     }
 

@@ -7,21 +7,24 @@ using System.Linq;
 // Unity 2D環境でCinemachineを触ってみたのでメモ
 //https://www.subarunari.com/entry/2018/05/19/2D%E7%92%B0%E5%A2%83%E3%81%A7Cinemachine%E3%82%92%E8%A7%A6%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F%E3%81%AE%E3%81%A7%E3%83%A1%E3%83%A2
 
+/// <summary>
+/// ゲーム内のカメラの制御・管理用
+/// </summary>
 public class CameraManager : MonoBehaviour
 {
     [SerializeField]
-    private UnityEngine.UI.Button btnSwitchCamera;
+    private UnityEngine.UI.Button btnSwitchCamera;  // ワールドカメラ切り替えボタンの制御用
 
     [SerializeField]
-    private CinemachineVirtualCamera worldCamera;
+    private CinemachineVirtualCamera worldCamera;  // 俯瞰用カメラをアサイン
 
-    [SerializeField]  // Debug 用。確認取れたら SerializeField を外す
-    private CinemachineVirtualCamera currentCharaCamera;
+    //[SerializeField]  // Debug 用。確認取れたら SerializeField を外す
+    private CinemachineVirtualCamera currentCharaCamera;  // アクティブ状態のキャラのカメラをその都度アサインして変更
 
-    private bool isWorldCamera;
+    private bool isWorldCamera;  // ワールドカメラになっているかの確認。true ならワールドカメラ使用状態
 
     [SerializeField]
-    List<CinemachineVirtualCamera> charaCamerasList = new List<CinemachineVirtualCamera>();
+    private List<CinemachineVirtualCamera> charaCamerasList = new List<CinemachineVirtualCamera>();  // 各キャラのカメラのリスト
 
 
     void Start()

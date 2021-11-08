@@ -382,7 +382,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.9994006, y: 1}
+    m_SensorSize: {x: 2, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -627,7 +627,7 @@ GameObject:
   - component: {fileID: 823711474}
   - component: {fileID: 823711473}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: Grid_Move
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -892,7 +892,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btnSwitchCamera: {fileID: 1040240749}
   worldCamera: {fileID: 588821756}
-  currentCharaCamera: {fileID: 0}
   charaCamerasList: []
 --- !u!4 &1009730197
 Transform:
@@ -14589,12 +14588,13 @@ MonoBehaviour:
   charaPrefab: {fileID: 9029023906374182137, guid: 97aace5c34b75054689e7ed37307feee, type: 3}
   charaButtonPrefab: {fileID: 1751323377463180710, guid: adb1fb5d4da8df0458cd01938caa6024, type: 3}
   charaGenerateTran: {fileID: 1647688767}
-  charaButtonTran: {fileID: 438430413}
+  charaButtonGenerateTran: {fileID: 438430413}
   cameraManager: {fileID: 1009730196}
   grid: {fileID: 823711473}
   tilemap: {fileID: 1049780179}
   charasList: []
   charaButtonsList: []
+  generateCharaCount: 10
 --- !u!1 &1725354139
 GameObject:
   m_ObjectHideFlags: 0
@@ -14902,7 +14902,7 @@ GameObject:
   - component: {fileID: 1876013316}
   - component: {fileID: 1876013315}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: Grid_DontMove
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

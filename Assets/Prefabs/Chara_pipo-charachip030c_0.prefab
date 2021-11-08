@@ -300,6 +300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {fileID: 0}
   tilemap: {fileID: 0}
+  isActive: 0
 --- !u!114 &9029023906374182137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,5 +313,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1a93ff344a0a046aa1238ee87dcf4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myCamera: {fileID: 2277659037635647634}
+  myCamera: {fileID: 0}
   mapPoint: {fileID: 2277659038132968160}
+  gameManager: {fileID: 0}
