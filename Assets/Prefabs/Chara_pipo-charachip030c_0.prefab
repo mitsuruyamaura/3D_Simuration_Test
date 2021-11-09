@@ -48,20 +48,20 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 5
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 2277659038132968164}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 5
+    OrthographicSize: 6
     NearClipPlane: 0.3
     FarClipPlane: 12
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.9994006, y: 1}
+    m_SensorSize: {x: 2.0000002, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 2277659038132968165}
   - component: {fileID: 2277659038132968162}
   - component: {fileID: 2277659038132968163}
-  - component: {fileID: 2277659038132968160}
+  - component: {fileID: 5621253318410168783}
   - component: {fileID: 9029023906374182137}
   m_Layer: 0
   m_Name: Chara_pipo-charachip030c_0
@@ -286,7 +286,7 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2277659038132968160
+--- !u!114 &5621253318410168783
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -301,6 +301,7 @@ MonoBehaviour:
   grid: {fileID: 0}
   tilemap: {fileID: 0}
   isActive: 0
+  drawPathPrefab: {fileID: 3059095405443993625, guid: 1edb53dd96a578b4e8453f1e7f98e119, type: 3}
 --- !u!114 &9029023906374182137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,6 +314,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1a93ff344a0a046aa1238ee87dcf4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myCamera: {fileID: 0}
-  mapPoint: {fileID: 2277659038132968160}
-  gameManager: {fileID: 0}

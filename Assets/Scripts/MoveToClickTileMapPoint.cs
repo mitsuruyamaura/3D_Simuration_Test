@@ -30,7 +30,7 @@ public class MoveToClickTilemapPoint : MonoBehaviour {
     private DrawPath drawPathPrefab;
 
     private CharaController charaController;
-    //private IEnumerator coroutine;
+    private IEnumerator coroutine;
 
 
     void Start() {
@@ -147,22 +147,27 @@ public class MoveToClickTilemapPoint : MonoBehaviour {
                 // 経路の座標情報取得
                 Vector3[] corners = path.corners;
 
-                //if (coroutine != null) {
-                //    StopCoroutine(coroutine);
-                //    coroutine = null;
-                //}
+                // すでに移動中のアニメを再生している場合
+                if (coroutine != null) {
 
-                //coroutine = charaController.SetAnime(corners);
+                    // アニメ再生を停止
+                    StopCoroutine(coroutine);
+                    coroutine = null;
+                }
 
-                //StartCoroutine(coroutine);
+                // アニメ再生用のメソッド登録
+                coroutine = charaController.SetAnime(corners);
+
+                // 登録したアニメ再生用のメソッドを実行
+                StartCoroutine(coroutine);
 
                 //path.GetCornersNonAlloc(corners);
-                Debug.Log("GetCornersNonAlloc : " + path.GetCornersNonAlloc(corners));  // 最初の地点もいれて数える
+                //Debug.Log("GetCornersNonAlloc : " + path.GetCornersNonAlloc(corners));  // 最初の地点もいれて数える
 
                 // 経路の作成
                 StartCoroutine(drawPath.DrawCornersLine(corners));
 
-                Debug.Log(" 経路の作成 開始");
+                //Debug.Log(" 経路の作成 開始");
             }
         }
     }
