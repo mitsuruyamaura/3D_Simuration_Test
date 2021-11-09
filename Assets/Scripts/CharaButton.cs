@@ -18,6 +18,9 @@ public class CharaButton : MonoBehaviour
     [SerializeField]
     private Text txtCost;
 
+    [SerializeField]
+    private Image imgActiveFrame;
+
     private CameraManager cameraManager;
     private CharaController charaController;
 
@@ -30,6 +33,8 @@ public class CharaButton : MonoBehaviour
     public void SetUpCharaButton(CameraManager cameraManager, CharaController charaController) {
 
         // TODO 画像、コストなどの設定
+
+        imgActiveFrame.enabled = false;
 
         // ボタンのアサインがある場合のみ、ボタンにメソッドを登録
         btnChara?.onClick.AddListener(OnClickCharaButton);
@@ -71,5 +76,21 @@ public class CharaButton : MonoBehaviour
     /// <param name="isSwitch"></param>
     public void SwitchActiveteCharaButton(bool isSwitch) {
         btnChara.interactable = isSwitch;
+    }
+
+    /// <summary>
+    /// キャラの情報取得
+    /// </summary>
+    /// <returns></returns>
+    public CharaController GetCharaController() {
+        return charaController;
+    }
+
+    /// <summary>
+    /// アクティブ状態時のフレームのオンオフ切り替え
+    /// </summary>
+    /// <param name="isSwitch"></param>
+    public bool SwitchActivateFrame(bool isSwitch) {
+        return imgActiveFrame.enabled = isSwitch;
     }
 }

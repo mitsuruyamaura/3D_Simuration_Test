@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
             GenerateCharaButton(chara);
 
             // タイルマップの移動用の情報として Grid と Tilemap を設定
-            chara.TilemapMove.SetUpTilemapMove(grid, tilemap);
+            chara.TilemapMove.SetUpTilemapMove(grid, tilemap, chara);
 
             // 各リストに追加
             charasList.Add(chara);
@@ -97,6 +97,9 @@ public class GameManager : MonoBehaviour
         // アクティブキャラのみアクティブ状態にし、他のキャラは非アクティブ状態にする
         charasList.Select(x => x == activeChara ? x.TilemapMove.isActive = true : x.TilemapMove.isActive = false).ToList();
 
+        // アクティブキャラのみフレームを表示する
+        charaButtonsList.Select(x => x.GetCharaController() == activeChara ? x.SwitchActivateFrame(true) : x.SwitchActivateFrame(false)).ToList();
+
         //foreach (CharaController chara in charasList) {
         //    if (chara.Equals(activeChara)) {
         //        chara.mapPoint.isActive = true;
@@ -104,5 +107,22 @@ public class GameManager : MonoBehaviour
         //        chara.mapPoint.isActive = false;
         //    }
         //}
+
+        //foreach (CharaButton charaButton in charaButtonsList) {
+        //    if (charaButton.GetCharaController() == activeChara) {
+        //        charaButton.SwitchActivateFrame(true);
+        //    } else {
+        //        charaButton.SwitchActivateFrame(false);
+        //    }
+        //}
+    }
+
+    /// <summary>
+    /// 選択しているキャラの解除
+    /// </summary>
+    public void InactivateChara() {
+        charasList.Select(x => x.TilemapMove.isActive = false).ToList();
+
+        charaButtonsList.Select(x => x.SwitchActivateFrame(false)).ToList();
     }
 }
