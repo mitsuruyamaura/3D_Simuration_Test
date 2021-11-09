@@ -162,12 +162,12 @@ public class MoveToClickTilemapPoint : MonoBehaviour {
                 StartCoroutine(coroutine);
 
                 //path.GetCornersNonAlloc(corners);
-                Debug.Log("GetCornersNonAlloc : " + path.GetCornersNonAlloc(corners));  // 最初の地点もいれて数える
+                //Debug.Log("GetCornersNonAlloc : " + path.GetCornersNonAlloc(corners));  // 最初の地点もいれて数える
 
                 // 経路の作成
                 StartCoroutine(drawPath.DrawCornersLine(corners));
 
-                Debug.Log(" 経路の作成 開始");
+                //Debug.Log(" 経路の作成 開始");
             }
         }
     }

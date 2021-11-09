@@ -47,13 +47,13 @@ public class CharaController : MonoBehaviour
     /// <returns></returns>
     public IEnumerator SetAnime(Vector3[] corners) {
 
-        Debug.Log("アニメ開始");
+        //Debug.Log("アニメ開始");
 
         currentCornerIndex = 0;
 
         while (true) {
 
-            Debug.Log(Vector2.Distance(transform.position, corners[currentCornerIndex]));
+            //Debug.Log(Vector2.Distance(transform.position, corners[currentCornerIndex]));
 
             // Vector3 だと上手くいかない(Z 成分があると計算値が変わるため)
             if (Vector2.Distance(transform.position, corners[currentCornerIndex]) <= 0.3f) {
