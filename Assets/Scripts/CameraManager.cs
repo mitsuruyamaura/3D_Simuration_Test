@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Cinemachine;
 using System.Linq;
 
@@ -13,18 +14,24 @@ using System.Linq;
 public class CameraManager : MonoBehaviour
 {
     [SerializeField]
-    private UnityEngine.UI.Button btnSwitchCamera;  // ワールドカメラ切り替えボタンの制御用
+    private Button btnSwitchCamera;  // ワールドカメラ切り替えボタンの制御用
 
     [SerializeField]
     private CinemachineVirtualCamera worldCamera;  // 俯瞰用カメラをアサイン
 
     //[SerializeField]  // Debug 用。確認取れたら SerializeField を外す
-    private CinemachineVirtualCamera currentCharaCamera;  // アクティブ状態のキャラのカメラをその都度アサインして変更
+    private CinemachineVirtualCamera currentCamera;  // アクティブ状態のキャラのカメラか、フリーカメラをその都度アサインして変更
 
     private bool isWorldCamera;  // ワールドカメラになっているかの確認。true ならワールドカメラ使用状態
 
     [SerializeField]
     private List<CinemachineVirtualCamera> charaCamerasList = new List<CinemachineVirtualCamera>();  // 各キャラのカメラのリスト
+
+    [SerializeField]
+    private Button btnFreeCamera;  // フリーカメラ切り替えボタンの制御用
+
+    [SerializeField]
+    private CinemachineVirtualCamera freeCamera;  // フリーカメラをアサイン
 
 
     void Start()
@@ -33,9 +40,12 @@ public class CameraManager : MonoBehaviour
 
 
         // ボタンの設定
-        btnSwitchCamera.onClick.AddListener(SwitchWorldCamera);
+        btnSwitchCamera?.onClick.AddListener(SwitchWorldCamera);
+        btnFreeCamera?.onClick.AddListener(SetFreeCamera);
 
         isWorldCamera = true;
+
+        SetFreeCamera();
     }
 
     /// <summary>
@@ -45,10 +55,10 @@ public class CameraManager : MonoBehaviour
 
         if (isWorldCamera) {
             worldCamera.Priority = 10;
-            currentCharaCamera.Priority = 5;
+            currentCamera.Priority = 5;
         } else {
             worldCamera.Priority = 5;
-            currentCharaCamera.Priority = 10;
+            currentCamera.Priority = 10;
         }
 
         isWorldCamera = !isWorldCamera;
@@ -59,8 +69,11 @@ public class CameraManager : MonoBehaviour
     /// </summary>
     /// <param name="charaCamera"></param>
     public void SetCurrentCharaCamera(CinemachineVirtualCamera charaCamera) {
-        currentCharaCamera = charaCamera;
+        currentCamera = charaCamera;
         isWorldCamera = true;
+
+        // フリーカメラのボタンを押せるようにする
+        btnFreeCamera.interactable = true;
 
         SetActiveCharaCamera(charaCamera);
     }
@@ -68,9 +81,9 @@ public class CameraManager : MonoBehaviour
     /// <summary>
     /// キャラのカメラを削除
     /// </summary>
-    public void RemoveCurrentCharaCamera() {
-        currentCharaCamera = null;
-        isWorldCamera = false;
+    public void RemoveCurrentCameraFromChara() {
+        currentCamera = null;
+        isWorldCamera = true;
     }
 
     /// <summary>
@@ -96,5 +109,33 @@ public class CameraManager : MonoBehaviour
     /// <param name="camera"></param>
     public void AddCharaCamerasList(CinemachineVirtualCamera camera) {
         charaCamerasList.Add(camera);
+    }
+
+    /// <summary>
+    /// 現在のカメラをフリーカメラに設定
+    /// </summary>
+    public void SetFreeCamera() {
+
+        // 現在のカメラの設定がある場合
+        if (currentCamera != null) {
+
+            // 表示している位置情報を引き継ぐ
+            freeCamera.transform.position = currentCamera.transform.position;
+
+            // キャラを解除(元からフリーカメラの場合には何もしないようにする)
+            if (currentCamera.transform.parent.gameObject.TryGetComponent(out CharaController chara)){
+                chara.GameManager.InactivateChara();
+            }
+            // キャラのカメラの優先度を下げる
+            SetActiveCharaCamera(freeCamera);
+        }
+
+        // 現在のカメラをフリーカメラに設定
+        currentCamera = freeCamera;
+
+        // フリーカメラのボタンを押せないようにする
+        btnFreeCamera.interactable = false;
+
+        freeCamera.Priority = 10;
     }
 }

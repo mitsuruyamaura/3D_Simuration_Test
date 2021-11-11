@@ -11,8 +11,8 @@ public class CharaController : MonoBehaviour
     private CinemachineVirtualCamera myCamera;
     public CinemachineVirtualCamera MyCamera { get => myCamera; }
 
-    private MoveToClickTilemapPoint tilemapMove;
-    public MoveToClickTilemapPoint TilemapMove { get => tilemapMove; }
+    private MoveToClickTileMapPoint tilemapMove;
+    public MoveToClickTileMapPoint TilemapMove { get => tilemapMove; }
 
     private GameManager gameManager;
     public GameManager GameManager { get => gameManager; }
@@ -59,10 +59,10 @@ public class CharaController : MonoBehaviour
             if (Vector2.Distance(transform.position, corners[currentCornerIndex]) <= 0.3f) {
 
                 currentCornerIndex++;
-                Debug.Log(currentCornerIndex);
+                //Debug.Log(currentCornerIndex);
 
                 if (currentCornerIndex >= corners.Length) {
-                    Debug.Log("アニメ終了");
+                    //Debug.Log("アニメ終了");
                     yield break;
                 }
 
@@ -75,5 +75,9 @@ public class CharaController : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        Debug.Log(collision.gameObject.name);  // NavMesh の Bake したコライダーも Tilemap として拾うので注意
     }
 }

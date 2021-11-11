@@ -14,7 +14,7 @@ using UnityEngine.EventSystems;
 /// <summary>
 /// タイルマップをタップしてナビメッシュで移動させるためのクラス
 /// </summary>
-public class MoveToClickTilemapPoint : MonoBehaviour {
+public class MoveToClickTileMapPoint : MonoBehaviour {
 
     [SerializeField]
     private Grid grid;

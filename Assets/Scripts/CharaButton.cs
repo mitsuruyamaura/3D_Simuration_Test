@@ -57,7 +57,7 @@ public class CharaButton : MonoBehaviour
         // このキャラをアクティブ状態にしてタイルマップの移動を許可する。他のキャラは非アクティブ状態にする
         charaController.GameManager.SwitchActivateChara(charaController);
 
-        Debug.Log("キャラ選択");
+        //Debug.Log("キャラ選択");
     }
 
     /// <summary>
