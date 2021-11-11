@@ -50,7 +50,7 @@ public class DrawPath : MonoBehaviour
         // Œo˜H‚Ì•\Ž¦(•`‰æ)
         line.SetPositions(corners);
 
-        Debug.Log("Draw Line");
+        //Debug.Log("Draw Line");
 
         yield return new WaitForSeconds(1.0f);
 

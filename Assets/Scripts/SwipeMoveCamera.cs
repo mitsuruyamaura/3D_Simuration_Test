@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 //UnityでSceneビューのような視点移動ができるカメラを作る(MouseUpdate の方)
 //https://esprog.hatenablog.com/entry/2016/03/20/033322
@@ -8,7 +9,9 @@ using UnityEngine;
 //【Unity】スワイプ移動した分だけオブジェクトを移動させる(MoveCamera の方)
 //https://zenn.dev/daichi_gamedev/articles/74b0a80dd836ac
 
-
+/// <summary>
+/// フリーのカメラの制御用
+/// </summary>
 public class SwipeMoveCamera : MonoBehaviour
 {
     [SerializeField, Range(0.1f, 10.0f)]
@@ -23,8 +26,27 @@ public class SwipeMoveCamera : MonoBehaviour
     private Vector3 prevMousePos;
 
 
+    void Start() {
+#if UNITY_EDITOR
+        moveSpeed = 1f;
+#else   // スマホ用
+        moveSpeed = 0.3f;
+#endif
+    }
+
+
     void Update()
     {
+#if UNITY_EDITOR
+        // UI がタップされたときは処理しない(UI のボタンを押したらそちらのみを反応させる)
+        if (EventSystem.current.IsPointerOverGameObject()) {
+            return;
+        }
+#else   // スマホ用
+        if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) {
+            return;
+        }
+#endif
         MoveCamera();
         return;
 
