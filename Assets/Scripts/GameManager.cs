@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     private Transform charaButtonGenerateTran;  // Content をアサイン
 
     [SerializeField]
+    private UnityEngine.UI.Scrollbar scrollbar;
+
+    [SerializeField]
     private CameraManager cameraManager;
 
     [SerializeField]
@@ -86,6 +89,9 @@ public class GameManager : MonoBehaviour
             // キャラボタンのリストに追加
             charaButtonsList.Add(charaButton);
         }
+
+        // すべてのキャラボタン作成後、スクロールバーを一番先頭にフォーカスする
+        scrollbar.value = 1.0f;
     }
 
     /// <summary>
