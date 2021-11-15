@@ -4,7 +4,16 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
 using UniRx;
+using UniRx.Triggers;
 using System;
+
+public enum TimeType {
+    Night = 0,       // 0 - 5
+    Morning = 6,     // 6 -11
+    Afternoon = 12,  // 12 - 17
+    Evening = 18,    // 18 - 23
+}
+
 
 /// <summary>
 /// ゲームシーンの制御・管理用
@@ -49,6 +58,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private UnityEngine.UI.Button btnTimeTransition;
 
+    public ReactiveProperty<int> OurTime;
+    private int maxTime = 24;
+
+    public TimeType currentTimeType;
+
 
     void Start()
     {
@@ -62,6 +76,51 @@ public class GameManager : MonoBehaviour
             .Subscribe(_ => OnClickSwitchTimeTransition());
 
         Debug.Log($"時間の流れ : {(IsTimeStopped.Value ? "停止" : "開始")}");
+
+        int targetTime = 3;
+
+        // 時間計測
+        Observable.Timer(TimeSpan.FromSeconds(targetTime), TimeSpan.FromSeconds(targetTime))
+            .Subscribe(_ => KeepTime());  // Subscribe 内に複数の処理を書く場合は Subscribe(_ => { }) とする
+
+        // 時間を監視して TimeType を自動で変更
+        OurTime.Subscribe(x => ChangeTimeType(x));
+
+        OurTime.Value = 6;
+    }
+
+    /// <summary>
+    /// 時間経過計測
+    /// </summary>
+    private void KeepTime() {
+
+        OurTime.Value++;
+
+        OurTime.Value = OurTime.Value % maxTime;
+        
+        //float timer = 0;
+        //int targetTime = 3;
+
+        //timer += Time.deltaTime;
+        //if (timer >= targetTime) {
+        //    timer = 0;
+            
+        //}
+    }
+
+    /// <summary>
+    /// TimeTypeの変更
+    /// </summary>
+    /// <param name="our"></param>
+    private void ChangeTimeType(int our) {
+
+        currentTimeType = our switch {
+            0 => TimeType.Night,
+            6 => TimeType.Morning,
+            12 => TimeType.Afternoon,
+            18 => TimeType.Evening,
+            _ => currentTimeType
+        };
     }
 
     /// <summary>
