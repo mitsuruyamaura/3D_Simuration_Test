@@ -121,6 +121,12 @@ public class GameManager : MonoBehaviour
             18 => TimeType.Evening,
             _ => currentTimeType
         };
+
+        // –¾‚é‚³‚Æƒ‰ƒCƒg‚Ì”ÍˆÍ‚Ì’²®
+        if (our >= 17 || our >= 5) {
+            cameraManager.ChangeLightIntensity(our);
+            cameraManager.ChangePointLightOuterRadius(our);
+        }
     }
 
     /// <summary>
