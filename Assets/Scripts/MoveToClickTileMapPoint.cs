@@ -200,8 +200,8 @@ public class MoveToClickTileMapPoint : MonoBehaviour {
             // 初期目的地設定(これがないと初期位置からズレる)
             agent.destination = transform.position;
 
+            // 時間の流れの監視
             gameManager.IsTimeStopped.Subscribe(x => SwitchNavMeshPause(x));
-
         }
     }
 

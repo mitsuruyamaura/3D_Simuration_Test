@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private int generateCharaCount;  // キャラの生成数。後で別の情報から参照するのでデバッグ用
 
-    public ReactiveProperty<bool> IsTimeStopped = new ReactiveProperty<bool>(false);
+    public ReactiveProperty<bool> IsTimeStopped = new ReactiveProperty<bool>(false);  // 時間が流れているかどうかを判定するための ReactiveProperty
 
     [SerializeField]
     private UnityEngine.UI.Button btnTimeTransition;
@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
         // Debug用
         GenerateChara();
 
-
+        // 時間の流れの切り替えボタンの設定
         btnTimeTransition!.OnClickAsObservable()
             .TakeUntilDestroy(gameObject)
             .ThrottleFirst(TimeSpan.FromSeconds(0.5f))
