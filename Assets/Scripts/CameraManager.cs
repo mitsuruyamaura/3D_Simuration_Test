@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Cinemachine;
 using System.Linq;
+using UnityEngine.Experimental.Rendering.Universal;
 
 // Unity 2D環境でCinemachineを触ってみたのでメモ
 //https://www.subarunari.com/entry/2018/05/19/2D%E7%92%B0%E5%A2%83%E3%81%A7Cinemachine%E3%82%92%E8%A7%A6%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F%E3%81%AE%E3%81%A7%E3%83%A1%E3%83%A2
@@ -33,6 +34,12 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private CinemachineVirtualCamera freeCamera;  // フリーカメラをアサイン
 
+    [SerializeField]
+    private Light2D light2D;
+
+    private float currentOuterRadius;
+    private Vector3 defaultCameraPos = new Vector3(0, 0, 1.0f);
+
 
     void Start()
     {
@@ -46,6 +53,8 @@ public class CameraManager : MonoBehaviour
         isWorldCamera = true;
 
         SetFreeCamera();
+
+        currentOuterRadius = light2D.pointLightOuterRadius;
     }
 
     /// <summary>
@@ -56,9 +65,19 @@ public class CameraManager : MonoBehaviour
         if (isWorldCamera) {
             worldCamera.Priority = 10;
             currentCamera.Priority = 5;
+
+            light2D.lightType = Light2D.LightType.Global;
         } else {
             worldCamera.Priority = 5;
             currentCamera.Priority = 10;
+
+            light2D.lightType = Light2D.LightType.Point;
+        }
+
+        // ポイントライトの調整
+        if (currentOuterRadius != 100) {
+            // ライトの範囲調整
+            ChangePointLightOuterRadius((int)currentOuterRadius);
         }
 
         isWorldCamera = !isWorldCamera;
@@ -93,6 +112,9 @@ public class CameraManager : MonoBehaviour
     public void SetActiveCharaCamera(CinemachineVirtualCamera charaCamera) {
 
         charaCamerasList.Select(x => x == x.Equals(charaCamera) ? x.Priority = 10 : x.Priority = 5).ToList();
+
+        light2D.transform.SetParent(currentCamera.transform.parent);
+        light2D.transform.localPosition = Vector3.zero;
 
         //foreach (CinemachineVirtualCamera camera in charaCamerasList) {
         //    if (camera.Equals(charaCamera)) {
@@ -137,5 +159,53 @@ public class CameraManager : MonoBehaviour
         btnFreeCamera.interactable = false;
 
         freeCamera.Priority = 10;
+
+        light2D.transform.SetParent(currentCamera.transform);
+        light2D.transform.localPosition = defaultCameraPos;
+
+        // ポイントライトの調整
+        if (currentOuterRadius != 100) {
+            ChangePointLightOuterRadius((int)currentOuterRadius);
+        }
+    }
+
+    /// <summary>
+    /// ライトの明るさ調整
+    /// </summary>
+    /// <param name="our"></param>
+    public void ChangeLightIntensity(int our) {
+
+        // 明るさ調整
+        light2D.intensity = our switch {
+            5 => 0.8f,
+            6 => 0.9f,
+            7 => 1.0f,
+            17 => 0.9f,
+            18 => 0.8f,
+            19 => 0.7f,
+            _ => light2D.intensity
+        };
+    }
+
+    /// <summary>
+    /// ポイントライトの範囲の調整
+    /// </summary>
+    /// <param name="our"></param>
+    public void ChangePointLightOuterRadius(int our) {
+
+        currentOuterRadius = our;
+
+        if (light2D.lightType == Light2D.LightType.Point) {
+
+            light2D.pointLightOuterRadius = our switch {
+                5 => 13f,
+                6 => 16f,
+                7 => 100f,
+                17 => 16f,
+                18 => 13f,
+                19 => 10f,
+                _ => light2D.pointLightOuterRadius
+            };
+        }
     }
 }
