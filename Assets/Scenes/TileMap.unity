@@ -24768,7 +24768,7 @@ MonoBehaviour:
   charasList: []
   charaButtonsList: []
   generateCharaCount: 10
-  TimeTransition:
+  IsTimeStopped:
     value: 0
   btnTimeTransition: {fileID: 1303574989}
 --- !u!1 &1671156629

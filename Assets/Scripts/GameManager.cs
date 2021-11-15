@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private int generateCharaCount;  // キャラの生成数。後で別の情報から参照するのでデバッグ用
 
-    public ReactiveProperty<bool> TimeTransition;
+    public ReactiveProperty<bool> IsTimeStopped = new ReactiveProperty<bool>(false);
 
     [SerializeField]
     private UnityEngine.UI.Button btnTimeTransition;
@@ -60,6 +60,8 @@ public class GameManager : MonoBehaviour
             .TakeUntilDestroy(gameObject)
             .ThrottleFirst(TimeSpan.FromSeconds(0.5f))
             .Subscribe(_ => OnClickSwitchTimeTransition());
+
+        Debug.Log($"時間の流れ : {(IsTimeStopped.Value ? "停止" : "開始")}");
     }
 
     /// <summary>
@@ -80,7 +82,7 @@ public class GameManager : MonoBehaviour
             GenerateCharaButton(chara);
 
             // タイルマップの移動用の情報として Grid と Tilemap を設定
-            chara.TilemapMove.SetUpTilemapMove(grid, tilemap, chara);
+            chara.TilemapMove.SetUpTilemapMove(grid, tilemap, chara, this);
 
             // 各リストに追加
             charasList.Add(chara);
@@ -150,8 +152,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void OnClickSwitchTimeTransition() {
 
-        TimeTransition.Value = !TimeTransition.Value;
+        IsTimeStopped.Value = !IsTimeStopped.Value;
 
-        Debug.Log($"時間の流れ {(TimeTransition.Value ? "開始" : "停止")}");
+        Debug.Log($"時間の流れ : {(IsTimeStopped.Value ? "停止" : "開始")}");
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
+using UniRx;
 
 //【Unityで2DRPG】NPCをNavMeshAgentで動かしてみる (猫の冒険)
 //https://a1026302.hatenablog.com/entry/2020/11/21/014727
@@ -30,24 +31,26 @@ public class MoveToClickTileMapPoint : MonoBehaviour {
     private DrawPath drawPathPrefab;
 
     private CharaController charaController;
+    private GameManager gameManager;
     private IEnumerator coroutine;
 
 
-    void Start() {
+    // デバッグ用
+    //void Start() {
 
-        if (TryGetComponent(out agent)) {
+    //    if (TryGetComponent(out agent)) {
 
-            // インスタンス対応。事前に入れておくと、Bake している地点を認識できずにエラーになるため
-            agent.enabled = true;
+    //        // インスタンス対応。事前に入れておくと、Bake している地点を認識できずにエラーになるため
+    //        agent.enabled = true;
 
-            // 2D なので、これがないと、変な位置に勝手に移動する
-            agent.updateRotation = false;
-            agent.updateUpAxis = false;
+    //        // 2D なので、これがないと、変な位置に勝手に移動する
+    //        agent.updateRotation = false;
+    //        agent.updateUpAxis = false;
 
-            // 初期目的地設定(これがないと初期位置からズレる)
-            agent.destination = transform.position;
-        }
-    }
+    //        // 初期目的地設定(これがないと初期位置からズレる)
+    //        agent.destination = transform.position;
+    //    }
+    //}
 
     void Update() {
 
@@ -177,11 +180,38 @@ public class MoveToClickTileMapPoint : MonoBehaviour {
     /// </summary>
     /// <param name="grid"></param>
     /// <param name="tilemap"></param>
-    public void SetUpTilemapMove(Grid grid, Tilemap tilemap, CharaController charaController) {
+    public void SetUpTilemapMove(Grid grid, Tilemap tilemap, CharaController charaController, GameManager gameManager) {
         this.grid = grid;
         this.tilemap = tilemap;
         this.charaController = charaController;
+        this.gameManager = gameManager;
 
         isActive = false;
+
+        if (TryGetComponent(out agent)) {
+
+            // インスタンス対応。事前に入れておくと、Bake している地点を認識できずにエラーになるため
+            agent.enabled = true;
+
+            // 2D なので、これがないと、変な位置に勝手に移動する
+            agent.updateRotation = false;
+            agent.updateUpAxis = false;
+
+            // 初期目的地設定(これがないと初期位置からズレる)
+            agent.destination = transform.position;
+
+            gameManager.IsTimeStopped.Subscribe(x => SwitchNavMeshPause(x));
+
+        }
+    }
+
+    /// <summary>
+    /// ナビの移動のオンオフ切り替え
+    /// </summary>
+    /// <param name="isSwtich"></param>
+    private void SwitchNavMeshPause(bool isSwtich) {
+        agent.isStopped = isSwtich;
+
+        Debug.Log($"ナビ移動 : {(agent.isStopped ? "停止" : "開始")}");
     }
 }
