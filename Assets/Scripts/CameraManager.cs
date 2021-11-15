@@ -38,6 +38,7 @@ public class CameraManager : MonoBehaviour
     private Light2D light2D;
 
     private float currentOuterRadius;
+    private Vector3 defaultCameraPos = new Vector3(0, 0, 1.0f);
 
 
     void Start()
@@ -53,7 +54,7 @@ public class CameraManager : MonoBehaviour
 
         SetFreeCamera();
 
-        currentOuterRadius = 20;
+        currentOuterRadius = light2D.pointLightOuterRadius;
     }
 
     /// <summary>
@@ -75,6 +76,7 @@ public class CameraManager : MonoBehaviour
 
         // ポイントライトの調整
         if (currentOuterRadius != 100) {
+            // ライトの範囲調整
             ChangePointLightOuterRadius((int)currentOuterRadius);
         }
 
@@ -110,6 +112,9 @@ public class CameraManager : MonoBehaviour
     public void SetActiveCharaCamera(CinemachineVirtualCamera charaCamera) {
 
         charaCamerasList.Select(x => x == x.Equals(charaCamera) ? x.Priority = 10 : x.Priority = 5).ToList();
+
+        light2D.transform.SetParent(currentCamera.transform.parent);
+        light2D.transform.localPosition = Vector3.zero;
 
         //foreach (CinemachineVirtualCamera camera in charaCamerasList) {
         //    if (camera.Equals(charaCamera)) {
@@ -155,6 +160,9 @@ public class CameraManager : MonoBehaviour
 
         freeCamera.Priority = 10;
 
+        light2D.transform.SetParent(currentCamera.transform);
+        light2D.transform.localPosition = defaultCameraPos;
+
         // ポイントライトの調整
         if (currentOuterRadius != 100) {
             ChangePointLightOuterRadius((int)currentOuterRadius);
@@ -192,7 +200,7 @@ public class CameraManager : MonoBehaviour
             light2D.pointLightOuterRadius = our switch {
                 5 => 13f,
                 6 => 16f,
-                7 => 20f,
+                7 => 100f,
                 17 => 16f,
                 18 => 13f,
                 19 => 10f,
