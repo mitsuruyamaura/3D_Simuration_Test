@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
+using UniRx;
+using System;
 
 /// <summary>
 /// ゲームシーンの制御・管理用
@@ -42,11 +44,24 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private int generateCharaCount;  // キャラの生成数。後で別の情報から参照するのでデバッグ用
 
+    public ReactiveProperty<bool> IsTimeStopped = new ReactiveProperty<bool>(false);  // 時間が流れているかどうかを判定するための ReactiveProperty
+
+    [SerializeField]
+    private UnityEngine.UI.Button btnTimeTransition;
+
 
     void Start()
     {
         // Debug用
         GenerateChara();
+
+        // 時間の流れの切り替えボタンの設定
+        btnTimeTransition!.OnClickAsObservable()
+            .TakeUntilDestroy(gameObject)
+            .ThrottleFirst(TimeSpan.FromSeconds(0.5f))
+            .Subscribe(_ => OnClickSwitchTimeTransition());
+
+        Debug.Log($"時間の流れ : {(IsTimeStopped.Value ? "停止" : "開始")}");
     }
 
     /// <summary>
@@ -67,7 +82,7 @@ public class GameManager : MonoBehaviour
             GenerateCharaButton(chara);
 
             // タイルマップの移動用の情報として Grid と Tilemap を設定
-            chara.TilemapMove.SetUpTilemapMove(grid, tilemap, chara);
+            chara.TilemapMove.SetUpTilemapMove(grid, tilemap, chara, this);
 
             // 各リストに追加
             charasList.Add(chara);
@@ -130,5 +145,15 @@ public class GameManager : MonoBehaviour
         charasList.Select(x => x.TilemapMove.isActive = false).ToList();
 
         charaButtonsList.Select(x => x.SwitchActivateFrame(false)).ToList();
+    }
+
+    /// <summary>
+    /// 時間の流れの切り替え
+    /// </summary>
+    private void OnClickSwitchTimeTransition() {
+
+        IsTimeStopped.Value = !IsTimeStopped.Value;
+
+        Debug.Log($"時間の流れ : {(IsTimeStopped.Value ? "停止" : "開始")}");
     }
 }
