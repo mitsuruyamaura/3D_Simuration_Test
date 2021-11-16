@@ -78,6 +78,10 @@ public class CharaController : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        Debug.Log(collision.gameObject.name);  // NavMesh の Bake したコライダーも Tilemap として拾うので注意
+        //Debug.Log(collision.gameObject.name);  // NavMesh の Bake したコライダーも Tilemap として拾うので注意
+
+        if (collision.TryGetComponent(out EventBase eventBase)) {
+            eventBase.TriggerEvent();
+        }
     }
 }

@@ -6290,6 +6290,7 @@ GameObject:
   m_Component:
   - component: {fileID: 553047125}
   - component: {fileID: 553047126}
+  - component: {fileID: 553047127}
   m_Layer: 0
   m_Name: City
   m_TagString: Untagged
@@ -6339,6 +6340,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &553047127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553047124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5809e2cbfac22df4b9171086c2873528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &588821755
 GameObject:
   m_ObjectHideFlags: 0
@@ -24591,7 +24604,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1160.4001}
+  m_AnchoredPosition: {x: 0, y: -1160.4}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1580576043
@@ -24857,7 +24870,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 942670083}
   m_HandleRect: {fileID: 942670082}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
