@@ -63,6 +63,9 @@ public class GameManager : MonoBehaviour
 
     public TimeType currentTimeType;
 
+    [SerializeField]
+    private EnemyGenerator enemyGenerator;
+
 
     void Start()
     {
@@ -87,6 +90,9 @@ public class GameManager : MonoBehaviour
         OurTime.Subscribe(x => ChangeTimeType(x));
 
         OurTime.Value = 6;
+
+        // TODO “G‚Ì©“®¶¬‚Ìƒ‹[ƒv
+
     }
 
     /// <summary>
