@@ -64,8 +64,7 @@ public class GameManager : MonoBehaviour
     public TimeType currentTimeType;
 
     [SerializeField]
-    private EnemyGenerator enemyGenerator;
-
+    private List<EnemyGenerator> enemyGeneratorsList;
 
     void Start()
     {
@@ -92,7 +91,42 @@ public class GameManager : MonoBehaviour
         OurTime.Value = 6;
 
         // TODO 敵の自動生成のループ
+        SetEnemyGenerators();
 
+        // TODO 各ジェネレーターの生成状況を ReactiveProperty で監視する
+        StartCoroutine(ObserveEnemyGenerators());
+    }
+
+    /// <summary>
+    /// 各ジェネレーターの初期設定
+    /// </summary>
+    private void SetEnemyGenerators() {
+        for (int i = 0; i < enemyGeneratorsList.Count; i++) {
+            enemyGeneratorsList[i].SetUpEnemyGenerator(i);     // スクリプタブル・オブジェクトから検索させる。あとでステージ番号も渡す
+        }
+    }
+
+    /// <summary>
+    /// 監視
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ObserveEnemyGenerators() {
+
+        Debug.Log("監視開始");
+
+        while (!GetIsCompleteGenerateEnemy()) {
+            yield return null;
+        }
+
+        Debug.Log("すべてのジェネレーターの生成完了");
+
+    }
+
+
+    private bool GetIsCompleteGenerateEnemy() {
+
+        // すべての IsComplete が true なら true。１つでも false なら false
+        return enemyGeneratorsList.All(x => x.IsComplete ? true : false);
     }
 
     /// <summary>
